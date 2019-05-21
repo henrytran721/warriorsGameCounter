@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>First React App</title>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src = "https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  </head>
+  <body>
+    <div id = 'app'></div>
+    <script type = "text/babel">
+        function Warriors(props) {
+          return (
+            <div>
+              <h1>{props.name}</h1>
+              <h1>{'Current Score: ' + props.currentScore}</h1>
+              <button onClick = {() => props.onTwoPointer()}>Two Points</button>
+              <button onClick = {() => props.onThreePointer()}>Three Points</button>
+              <button onClick = {() => props.onFreeThrow()}>Free Throw</button>
+            </div>
+          )
+        }
+        function Trailblazers(props) {
+          return (
+          <div>
+            <h1>{props.name}</h1>
+            <h1>{'Current Score: ' + props.currentScore}</h1>
+            <button onClick = {() => props.onTwoPointer()}>Two Points</button>
+            <button onClick = {() => props.onThreePointer()}>Three Points</button>
+            <button onClick = {() => props.onFreeThrow()}>Free Throw</button>
+          </div>
+          )
+        }
+        class GameScore extends React.Component {
+          constructor(props) {
+            super(props);
+            let d = new Date();
+            this.state = {
+              warriorsScore: 0,
+              blazersScore: 0,
+              time: d.toLocaleTimeString()
+            }
+            this.freeThrow = this.freeThrow.bind(this)
+            this.blazerFreeThrow = this.blazerFreeThrow.bind(this)
+            this.twoPointer = this.twoPointer.bind(this)
+            this.blazerTwoPointer = this.blazerTwoPointer.bind(this)
+            this.threePointer = this.threePointer.bind(this)
+            this.blazerThreePointer = this.blazerThreePointer.bind(this)
+            this.timeInSeconds = this.timeInSeconds.bind(this)
+          }
+
+          componentDidMount() {
+            setInterval(this.timeInSeconds, 1000);
+          }
+
+          timeInSeconds() {
+            let d = new Date();
+            this.setState(() => {
+              return {
+                  time: d.toLocaleTimeString()
+              }
+            })
+          }
+
+          freeThrow() {
+            this.setState((currentState) => {
+              return {
+                warriorsScore: currentState.warriorsScore + 1
+              }
+            })
+          }
+          blazerFreeThrow() {
+            this.setState((currentState) => {
+              return {
+                blazersScore: currentState.blazersScore + 1
+              }
+            })
+          }
+
+          twoPointer() {
+            this.setState((currentState) => {
+              return {
+                warriorsScore: currentState.warriorsScore + 2
+              }
+            })
+          }
+          blazerTwoPointer() {
+            this.setState((currentState) => {
+              return {
+                blazersScore: currentState.blazersScore + 2
+              }
+            })
+          }
+          threePointer() {
+            this.setState((currentState) => {
+              return {
+                warriorsScore: currentState.warriorsScore + 3
+              }
+            })
+          }
+          blazerThreePointer() {
+            this.setState((currentState) => {
+              return {
+                blazersScore: currentState.blazersScore + 3
+              }
+            })
+          }
+
+          render() {
+            return(
+              <div>
+                <Warriors
+                  name = "Warriors"
+                  currentScore = {this.state.warriorsScore}
+                  onFreeThrow = {this.freeThrow}
+                  onTwoPointer = {this.twoPointer}
+                  onThreePointer = {this.threePointer}
+                />
+                <Trailblazers
+                  name = "Trail Blazers"
+                  currentScore = {this.state.blazersScore}
+                  onFreeThrow = {this.blazerFreeThrow}
+                  onTwoPointer = {this.blazerTwoPointer}
+                  onThreePointer = {this.blazerThreePointer}
+                />
+                <h2>{this.state.time}</h2>
+              </div>
+            )
+          }
+        }
+
+        ReactDOM.render(
+          <GameScore />,
+          document.getElementById('app')
+        )
+    </script>
+  </body>
+</html>
